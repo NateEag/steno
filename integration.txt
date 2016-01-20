@@ -1,0 +1,137 @@
+So, how can I integrate Plover into my setup?
+
+ah, excellent - it offers configurable chords that let you pause/play it.
+
+So, I should be able to rebind (or hook?) evil's insert-mode and all-other-mode
+commands to automatically enter steno mode on insert and qwerty mode in other
+modes.
+
+And, of course, that hook itself will need to be toggleable, during the span of
+time in which I'm learning stenotyping.
+
+...another issue is bouncing between programs, come to think. If I leave Emacs
+in command-mode, I'll be in QWERTY mode. I guess on average that's what I want?
+
+I guess I'll also want to set up binds of some sort to flip it on and off as
+desired.
+
+'jk' has served me well for going to 'command' mode, and 'i' to 'insert' mode
+in vim-ish editors.
+
+and it appears they aren't bound by default.
+
+So, perhaps 'i' for my Plover-on switch, and 'jk' for reactivating?
+
+ah, no good - then I'll intercept important vim keyswitching.
+
+So I guess I'll have to go with something more obscurantist, then maybe bind
+that to some more-useful hotkeys across the OS.
+
+...okay, after a surprising amount of suffering, I have the ability to bounce
+fairly-seamlessly between QWERTY and stenotyping.
+
+Should I just live with typing those combos myself, or should I set up a more
+standard set of keybinds for toggling it on and off, via the magic of Karabiner
+and/or Seil?
+
+Unsure.
+
+Looks like I have hyper-Q, hyper-D, and hyper-G all free. Two of those are
+home-row-y.
+
+Whatever else I do, though, I definitely need to get Emacs to auto-flip to
+QWERTY mode if leaving evil-insert-state && Plover's running && emacs is in
+stenotyping mode, and to auto-flip to stenotyping mode on entering insert mode.
+
+looks like evil-insert-state-entry-hook and evil-insert-state-exit-hook should
+do just about exactly what I want. Now I just have to write the code...
+
+actually, turns out it's not that simple.
+
+Going from evil-normal-state to evil-insert-state should be fairly simple - press
+'i', and since you're already in QWERTY-mode, you can just coax something else
+into sending the "wake up, plover" keystrokes (I hope).
+
+Going from insert-state to normal-state, though, is weird. It would require
+some form of passthrough.
+
+can I just send "{PLOVER:SUSPEND}jk"?
+
+...I'll be darned. That does work, just as I'd hoped. Suspend Plover, tell
+Emacs/vim "okay, back to normal-mode".
+
+It will mean I lose the '-RB' keystroke from plover. I don't know how important
+that might be yet. Will have to look it up and figure out.
+
+...also, see if there's a way to opt *out* of space-triggered arpeggiation, and
+preferring actual arpeggiation. If there isn't, there really should be. See
+https://github.com/openstenoproject/plover/issues/62.
+
+ah. Plover does the web demo's behavior by default. Duh. Just don't check the
+'arpeggiate' box if you really don't want it.
+
+So this shouldn't be too bad to actually code now.
+
+...except it turns out that System Event's 'key down' and 'key up' AppleScript
+commands are broken on OS X Yosemite and above. They were always private
+events, and now they don't work (at least not the same way).
+
+And those are what I needed.
+
+seems like I need a command-line program to fire my keydown/keyup events?
+
+Tried installing an npm module that was supposed to help with writing those,
+and it wouldn't compile, so maybe I'll have to roll something of my own. :(
+
+Maybe I just won't worry about finishing this twiddling until I can actually
+use Plover semi-effectively.
+
+...good data that I shouldn't - apparently 'jk' maps to the 'sh' sound. So I
+really won't be able to keep using it as my back-to-command-mode shortcut, I
+guess.
+
+Point is, until I can at least write non-trivial stuff with it, I shouldn't be
+designing my toolset. Duh.
+
+so, hold off on this for a while.
+
+...how to configure the ErgoDox with N-key rollover for Plover:
+
+https://gist.github.com/nelstrom/11232558
+
+(found from https://geekhack.org/index.php?topic=53245.0)
+
+...and it turns out the ErgoDox EZ's firmware already supports N-key rollover,
+by default. Awesome.
+
+...a month or two later, and I have in my possession an ErgoDox EZ.
+
+So I now should get serious about building the layout I want, it seems. Until I
+have it loaded on my keyboard, I can't really test if this keyboard is a good
+fit for me.
+
+I've verified that the keys seem to be firing as they should be.
+
+So, what tasks are involved in deciding if I want to move to the ErgoDox as my
+board long-term?
+
+- Familiarize myself with baseline firmware's features (qmk_firmware)
+- Design a first draft of my keyboard layout based on TECK and qmk coolness
+- Convert layout into installable firmware
+- Install that firmware on my keyboard
+- Spend a non-trivial number of hours using the board
+- Make a decision
+
+http://rocketcode.nl/fusion/ is a hosted version of
+https://github.com/ErgoDox-EZ/fusion. It's what I used for my first pass at a
+layout.
+
+Unless I'm missing something, it also doesn't support loading an existing JSON
+file.
+
+So, need to read code and figure out how to pick up where I left off, or maybe
+issue a PR.
+
+aha - there's an outstanding issue, complete with a suggestion for how to do it:
+
+https://github.com/ErgoDox-EZ/fusion/issues/20

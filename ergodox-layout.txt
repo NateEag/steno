@@ -1,0 +1,6 @@
+What do I want from my ErgoDox layout?
+
+- TECK-inflected QWERTY layer
+- Shift layer doing standard Shift actions
+- Steno/Plover layer
+  (bonus points for {de,}activating Plover on layer toggle)
