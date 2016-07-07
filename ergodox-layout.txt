@@ -1,6 +1,246 @@
 What do I want from my ErgoDox layout?
 
-- TECK-inflected QWERTY layer
+- TECK-inflected QWERTY layer (closeish)
 - Shift layer doing standard Shift actions
+  (is apparently built-in?)
 - Steno/Plover layer
   (bonus points for {de,}activating Plover on layer toggle)
+  [Looks like I should be able to do that with macros, but adding better on/off
+   support to Plover is probably a better plan]
+- Caps Lock, for writing SQL and CONSTANT_NAMES
+- Momentary layer for Fkeys and other things I only sometimes use, somewhere
+  on thumbs. Maybe add a mouse cluster there?
+- Show Caps Lock/Plover layers via LEDs.
+- Use solo modifier keys to do something exciting?
+
+So, really, not that crazy.
+
+The next question: how should I create that layout?
+
+I could just suck down qmk_firmware, create my own keycodes.h, and compile with
+that.
+
+The other option is to try the Fusion/Reactor pair of programs, which would
+require running things locally and patching some stuff.
+
+So, some reading is required - how hard is just compiling it yourself?
+
+This gentleman seems to have done it.
+
+http://www.boesebeck.name/2015/12/23/ergodox-ez-in-german/
+
+Looks like it's just basic C patching, then doing a custom build of the
+firmware.
+
+So, that should be straightforward enough. Wouldn't be great for everyone, but
+his experience sounds like it was fairly straightforward. I'll be surprised if
+I don't have a basic one working pretty quickly.
+
+The one downside is the UI - it won't be easy to envision the way a given
+position corresponds to the baseline.
+
+...however, I can probably just use the default layout to figure that out, eh?
+
+cool. I can build the default firmware.
+
+Looks like they might even want a copy of my planned TrulyErgodoxic layout -
+they suggest PRs with your new layouts.
+
+So, I guess it's time to start creating mine.
+
+...remember that any regular keys can be used as temp layer switches while
+held.
+
+Also, of course, modifiers can be regular keys when pressed.
+
+I have something surprisingly close to what I want.
+
+I think all I'm missing now is the LEDs.
+
+...okay, I have a rough draft working here.
+
+I have a few difficulties with the layout on this keyboard. One is that the
+press vs. combo thing doesn't work reliably. It seems to detect it based on
+length of keypress, not the actual key sequences you type, or something along
+those lines?
+
+Guess I'll have to dig through code, project docs, and issue logs to figure out
+what's going on here.
+
+...after some slogging, I've found a lame workaround that does the job. It
+seems like something that should be solved generally and put into the core
+firmware as a new macro, since it's a behavior several people seem to want.
+
+It also seems not to have the N-key rollover I was promised. Hopefully that's
+just a config option when building my firmware.
+
+...sure enough, NKRO requires that you activate it via virtual DIP switch. Who knew?
+
+Not having arrow keys gets older than you might think, too, mostly because
+existing software tends to use them for keyboard shortcuts (particularly on
+Windows).
+
+I currently have some of the arrow keys as the tap keybinding for my L/R GUI
+keys, since I mostly just want them for keyboard shortcuts. However, that gets
+kind of annoying, because when you *do* want to navigate with them, you can't
+just hold down the arrow key.
+
+It's kinda weird to not have the GUI key near the other modifiers.
+
+...I just realized I can probably use my thumb keys
+as modifiers. Space and Enter are unusual choices for keyboard shortcuts.
+
+...eh, maybe not. There are more keyboard shortcuts depending on that than you
+might think.
+
+Okay, my custom-bound modifier/tap keys seem to fire the tap binding if
+prefaced with an actual modifier key, so I probably *could* bind Space/Enter to
+modifiers if I wanted - pressing another modifier then tapping Space/Enter
+seems like it would actually work, based on my experience thus far.
+
+On OS X, I need to find a way to turn Seil off on plugging it in, then back on
+when I unplug it, because my Seil bindings screw with Caps Lock, thereby making
+the external keyboard's Caps Lock go crazy.
+
+I don't have a Caps Lock binding, which is a little annoying.
+
+The current keymap also makes it frustrating to use shortcuts involving
+function keys.
+
+...okay, after some thinking, how about the following:
+
+* Put arrow keys on the outer edges of thumb clusters. - done
+* Move home/end/pgup/pgdwn to Fn layer, since I don't use them much - done
+* Swap Del and - (closer to standard layout)
+* Swap Plover thumbkeys w/ Fn
+* Use only one thumbkey for Plover?
+  (swapping in and out of Plover )
+* Make Space and Enter dual-duty keys
+* Make Alt a dual-duty key
+
+More thoughts on modifier keys...
+
+Any regular key that's mapped symmetrically can be used as a modifier while
+held, without losing the theoretical ability to trigger shortcuts using it,
+given the workaround I'm using for tap vs. hold bindings.
+
+Exception:
+
+  * You can no longer hold down that key to fire it repeatedly.
+
+The same is true for any modifier key, right? I can bind tapping them to do an
+arbitrary regular keystroke with no issue?
+
+Not quite:
+
+  * Aborted keyboard shortcut would result in typing
+
+Given those facts, what keys might I want to double-bind?
+
+- Tab (rarely held, symmetrical)
+- Alt (symmetrical, meaningless if tapped)
+- Enter (symmetrical, rarely held)
+- L/RGui
+- Unused bottom row 1 (symmetrical)
+- Unused bottom row 2 (symmetrical)
+- Unused bottom row 3 (symmetrical)
+
+...holy cow, I just discovered that the qmk_firmware supports leader keys. How
+did I not know this?
+
+Does that change what I want to do at all?
+
+Well, I had been vaguely considering using the top-right key for -/_ and =/+. I
+had been thinking of something like 'tap for -, shift-tap for _, double-tap for
+=, shift-double tap for +'.
+
+I wasn't sure how to implement it. However, I guess I could use leader to fire
+that alternate state instead. Do -/_ by default, use <leader><dash> to mean =,
+and <leader><shift><dash> to mean +.
+
+I guess if I went with leader, I could consolidate a number of keys, probably.
+
+What things have I been having a hard time placing?
+
+- [
+- ]
+- Caps Lock
+
+If I can detect Shift-presses with the Leader macro (and I'd really hope I
+can), then I can easily have four symbols on a single physical key:
+
+- regular keystroke
+- Shift + keystroke
+- leader + keystroke
+- leader + Shift + keystroke
+
+If I can't do that, then I could probably double-stack taps:
+
+- regular keystroke
+- Shift + keystroke
+- leader + keystroke
+- leader + keystroke + keystroke
+
+That, again, assumes the leader functionality will detect "same key twice".
+
+Given this discovery, what things do I want to do?
+
+...huh. KC_LEAD isn't working.
+
+Maybe this is a really recent feature and I need to rebase on current master?
+
+...yep, and now I have.
+
+but I'm really stupid, because the idea of doing a two-tap leader key sequence
+is inherently impossible. I don't know what I was thinking.
+
+and a quick test verifies that you can't use Shift (or, I'd guess, any solo
+modifier) because they aren't intercepted.
+
+...ooooor no it's not. Both those approaches work, presumably because of the
+time limit. I just was using a keycode which, apparently, does not differ from
+the original.
+
+So, a little experimenting suggests I prefer the single-/double-tap setup to
+using Shift.
+
+I do want to try the patch I saw to make the timing relative to each latest
+keypress, rather than requiring all of them to be rapid-fire:
+
+https://github.com/jackhumbert/qmk_firmware/issues/370
+
+- combine \ and / - done
+- put [ and ] on right side pinky key - done
+- put - and = on top-right right-hand pinky key - node
+- Make top-inner buttons leader - done
+- Make Caps Lock Leader + Shift - done
+- put Del somewhere
+
+Okay, so I have all that working, and it isn't terrible.
+
+Moving between paragraphs in vim-ish things kinda sucks, though.
+
+So I have a whole row of keys on the bottom of the keyboard that are largely
+unused. What am I going to do with those?
+
+I dunno. I guess we'll have to see.
+
+Maybe it would make sense to move my toggle over there?
+
+Meantime, why don't we actually try some stenography with this bad boy?
+
+...hmmm. I'm not sure I actually need Del, per se - just Ctrl+Alt+Del.
+
+...ah right. Outlook, how I hate thee.
+
+Also, I note that I have probably severely undervalued the OSL() (One-Shot Layer)
+macro.
+
+Basically, if you hold the key, you're in the layer, whereas if you tap it,
+just the next keypress comes from that layer.
+
+I could use that as a viable alternative to the leader key. Just stack up a few
+different layers and assign a different keybinding to each of them.
+
+Furthermore, my Plover/Fn layer shift keys may not really need to be on the
+thumb cluster...
