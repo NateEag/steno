@@ -4,7 +4,7 @@ due to the theoretical possibility of typing faster than people talk.
 
 I may well conclude that learning it is too much work to be worth the benefit.
 
-However, as a programmer and writer, I spend most of my life typing, and
+However, as a programmer and writer, I spend much of my life typing, and
 frequently wish I could go faster.
 
 Hence, this repo, in which I investigate the possibility.
