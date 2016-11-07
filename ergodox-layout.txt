@@ -244,3 +244,9 @@ different layers and assign a different keybinding to each of them.
 
 Furthermore, my Plover/Fn layer shift keys may not really need to be on the
 thumb cluster...
+
+Changes to make:
+
+- Move steno keybindings inwards one column (stretching too far for o/e)
+- Remove use of leader key for the common programming symbols
+- Swap Command and Option?
