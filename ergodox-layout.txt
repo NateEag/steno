@@ -245,6 +245,25 @@ different layers and assign a different keybinding to each of them.
 Furthermore, my Plover/Fn layer shift keys may not really need to be on the
 thumb cluster...
 
+Update: A new feature landed in the firmware since the last time I worked on my
+layout.
+
+That feature is tap-dance keys.
+
+Single-tapping a key does one thing, while double-tapping it does another.
+
+It doesn't have the leader key's delay problems, because as soon as you press
+another key, it knows to complete the dance as-is.
+
+That sounds ideal for many of my purposes.
+
+Alas, on actually trying it, I have found a bit of an issue.
+
+If you type quickly, modifier keys de-register before the tap dance has
+processed, so you get the unshifted version.
+
+I should file a bug report.
+
 Changes to make:
 
 - Move steno keybindings inwards one column (stretching too far for o/e)
