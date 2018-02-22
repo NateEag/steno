@@ -292,6 +292,12 @@ https://www.reddit.com/r/olkb/comments/4vwj3c/having_some_trouble_with_taphold_m
 you can in fact use a custom function to set up a modifier if held and tap
 dance if tapped.
 
+...oh, and it turns out the official docs contain an example of supporting
+hold/tap/double-tap, even with complete support for double-tap-and-hold, which
+is, let's face it, pretty freaking cool:
+
+https://docs.qmk.fm/feature_tap_dance.html#example-4-quad-function-tap-dance
+
 Will take some testing and experimenting, but that probably means I can
 reasonably put lots of typey things on left/right shift, and perhaps even a
 second set of options on left/right Control.
@@ -304,7 +310,7 @@ What might I put on the tap?
 
 Well, the ErgoDox puts Del directly beneath their Super mod, so the consistent
 thing would be to put that there. Seems kinda like a waste of space to me, I
-suppose because I grew up and still use a platform where Del is irrelevant.
+suppose because I grew up on and still use a platform where Del is irrelevant.
 
 Also, I have space for two things, one on each side.
 
@@ -320,14 +326,27 @@ spare key on the top-right for something.
 the original layout, but a simple solution to having it available. No, wait,
 that's a terrible plan because I multi-tap Backspace all the time.
 
-But I could put Del in the now-empty top corner (and still set it up as a
+I could put Del in the now-empty top corner (and still set it up as a
 mod-tap-dance key if I really wanted to).
 
 Okay, great. After all that thinking, what actions should I take here?
 
-- Put Hyper where leader used to be
-- Put - and = on tapping left-hyper/right-hyper
+- Re-implement my Control/Escape setup using tap-dance instead of macros - done
+- Put Hyper where leader used to be, with - and = on left/right hyper taps
 - Put \ on far right where = was
 - Put Del on far right where - was
-- Look into modifier/tap-dance keys (Shift, Alt, Hyper, etc)
 - Submit a PR for my keymap so I don't have to do a rebase myself again
+
+...I've tried redoing my Control/Escape setup with tap dance and it turned out
+not to be satisfactory for me.
+
+That's because I use Control with other modifiers regularly, and
+Control-Shift-<letter> interrupts Control and pushes it into regular Escape
+mode.
+
+Has anyone else run into this?
+
+...I found no sign of it around the web, so I let this sit for ages.
+
+Then I tried to fix it and it turned out to be really easy, so I guess I could
+pick this up again.
