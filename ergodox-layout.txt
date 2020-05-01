@@ -350,3 +350,7 @@ Has anyone else run into this?
 
 Then I tried to fix it and it turned out to be really easy, so I guess I could
 pick this up again.
+
+...I just realized I could have the - key automatically be _ when Caps Lock is
+on. I only really use Caps Lock for typing NAMES_LIKE_THIS, where that is a
+really useful feature.
