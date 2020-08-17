@@ -17,3 +17,7 @@ Note that some research and work on "what physical keyboard should I use" is
 commingled in this repo, as I'm trying out the ErgoDox EZ as an alternative to
 my current default, the TrulyErgonomic (much as I love the TECK's layout, I
 have had repeated hardware issues with it, so I have to investigate options).
+
+https://www.artofchording.com/ is an in-progress book by a programmer that
+tries to give you enough theory to start writing, but focuses on letting you
+*start writing* quickly. Might be worth taking a look at.
